@@ -1,0 +1,44 @@
+//kmp algo
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int j=0;
+        vector<int> help(needle.size());
+        help[j]=0;
+        for(int i=1;i<needle.size();){
+            if(needle[i]==needle[j]){
+                help[i++]=++j;
+            }else{
+                if(j==0)help[i++]=0;
+                else{
+                    j=help[j-1];
+                }
+            }
+        }
+        int i=0,k=0;
+        while(i<haystack.size() && k<needle.size()){
+            if(haystack[i]==needle[k])i++,k++;
+            else{
+                if(k==0)i++;
+                else{k=help[k-1];}
+            }
+        }
+        if(k==needle.size())return i-k;
+        return -1;
+    }
+};
+/*my first attempt
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int i=0;
+        while(i<haystack.size()){
+            string check = haystack.substr(i, needle.size());
+            if(check.size()<needle.size())return -1;
+            if(check==needle)return i;
+            i++;
+        }
+        return -1;
+    }
+};
+*/
